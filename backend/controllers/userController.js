@@ -1,54 +1,55 @@
 import User from "../models/UserSchema.js";
 import bcrypt from "bcrypt";
+import bcrypt from "bcrypt";
+import User from "../models/UserSchema.js";
 
 export const registerControllers = async (req, res, next) => {
-    try{
-        const {name, email, password} = req.body;
+    try {
+        const { name, email, password } = req.body;
 
-        // console.log(name, email, password);
-
-        if(!name || !email || !password){
+        // Validate if all required fields are provided
+        if (!name || !email || !password) {
             return res.status(400).json({
                 success: false,
-                message: "Please enter All Fields",
-            }) 
-        }
-
-        let user = await User.findOne({email});
-
-        if(user){
-            return res.status(409).json({
-                success: false,
-                message: "User already Exists",
+                message: "Please enter all fields",
             });
         }
 
-        const salt = await bcrypt.genSalt(10);
+        // Check if user already exists using email
+        let existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(409).json({
+                success: false,
+                message: "User already exists",
+            });
+        }
 
+        // Hash password before saving user
+        const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        // console.log(hashedPassword);
-
+        // Create new user in the database
         let newUser = await User.create({
-            name, 
-            email, 
-            password: hashedPassword, 
+            name,
+            email,
+            password: hashedPassword,
         });
 
-        return res.status(200).json({
+        // Return response with success message
+        return res.status(201).json({
             success: true,
-            message: "User Created Successfully",
-            user: newUser
+            message: "User created successfully",
+            user: newUser,
         });
-    }
-    catch(err){
+    } catch (err) {
+        // Handle any unexpected errors
         return res.status(500).json({
             success: false,
-            message: err.message,
+            message: "Server error: " + err.message,
         });
     }
+};
 
-}
 export const loginControllers = async (req, res, next) => {
     try{
         const { email, password } = req.body;
