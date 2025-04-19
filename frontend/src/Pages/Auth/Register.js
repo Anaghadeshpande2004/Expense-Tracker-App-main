@@ -56,29 +56,33 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-      const {name, email, password} = values;
-
-      setLoading(false);
-     
-      const {data} = await axios.post(registerAPI, {
+  
+    const { name, email, password } = values;
+  
+    setLoading(true); // Set loading to true when registration starts
+  
+    try {
+      const { data } = await axios.post(registerAPI, {
         name,
         email,
-        password
+        password,
       });
-
-      if(data.success === true){
+  
+      if (data.success) {
         delete data.user.password;
         localStorage.setItem("user", JSON.stringify(data.user));
         toast.success(data.message, toastOptions);
-        setLoading(true);
-        navigate("/");
-      }
-      else{
+        navigate("/"); // Navigate to home or dashboard after successful registration
+      } else {
         toast.error(data.message, toastOptions);
-        setLoading(false);
       }
-    };
+    } catch (error) {
+      toast.error("Registration failed. Please try again.", toastOptions);
+    } finally {
+      setLoading(false); // Set loading to false after the registration process ends
+    }
+  };
+  
 
   return (
     <>
