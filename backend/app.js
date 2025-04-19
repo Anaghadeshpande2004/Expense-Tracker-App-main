@@ -22,7 +22,6 @@ connectDB();
 // ];
 
 // Middleware
-app.use(express.json());
 app.use(
   cors({
     origin: "https://expense-tracker-app-main-alpha.vercel.app",
@@ -30,6 +29,7 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
+
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("dev"));
@@ -44,6 +44,4 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.listen(port, () => {
-  console.log(`Server is listening on http://localhost:${port}`);
-});
+export default app;
