@@ -16,16 +16,16 @@ const port = process.env.PORT;
 
 connectDB();
 
-const allowedOrigins = [
-  "https://expense-tracker-app-main-alpha.vercel.app",
-  // add more origins as needed
-];
+// const allowedOrigins = [
+//   "https://expense-tracker-app-main-alpha.vercel.app",
+//   // add more origins as needed
+// ];
 
 // Middleware
 app.use(express.json());
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: "https://expense-tracker-app-main-alpha.vercel.app",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
