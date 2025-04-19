@@ -16,20 +16,21 @@ const port = process.env.PORT;
 
 connectDB();
 
-// const allowedOrigins = [
-//   "https://expense-tracker-app-main-alpha.vercel.app",
-//   // add more origins as needed
-// ];
+const allowedOrigins = [
+  "https://main.d1sj7cd70hlter.amplifyapp.com",
+  "https://expense-tracker-app-three-beryl.vercel.app",
+  // add more origins as needed
+];
 
 // Middleware
+app.use(express.json());
 app.use(
   cors({
-    origin: "https://expense-tracker-app-main-alpha.vercel.app",
+    origin: allowedOrigins,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
-
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("dev"));
@@ -44,4 +45,6 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-export default app;
+app.listen(port, () => {
+  console.log(`Server is listening on http://localhost:${port}`);
+});

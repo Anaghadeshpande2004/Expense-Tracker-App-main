@@ -9,8 +9,6 @@ import Home from './Pages/Home/Home';
 import SetAvatar from './Pages/Avatar/setAvatar';
 
 
-axios.defaults.baseURL = 'https://expense-tracker-app-main-backend.vercel.app';
-axios.defaults.withcredentials = true;
 
 const App = () => {
   return (
@@ -28,6 +26,4 @@ const App = () => {
   )
 }
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+export default App

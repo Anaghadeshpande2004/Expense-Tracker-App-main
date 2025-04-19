@@ -1,13 +1,10 @@
-require('dotenv').config();
+import mongoose from "mongoose";
 
-const express = require('express');
-const mongoose = require('mongoose');
-const app = express();
+export const connectDB = async (req, res) => {
+    const db = process.env.MONGO_URL;
 
-mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.log(err));
+    const {connection} = await mongoose.connect(db, { useNewUrlParser: true });
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server running on port ${process.env.PORT}`);
-});
+    console.log(`MongoDB Connected to ${connection.host}`);
+
+}
